@@ -35,7 +35,7 @@
   document.getElementById("youtubeChannelLink").href = c.youtubeChannelUrl;
   document.getElementById("telegramHeroLink").href = c.telegramUrl;
 
-  // ---- Daily Ayat & Hadith (rotates automatically by the day of the year) ----
+  // ---- Daily Ayat & Hadith ----
   function dayOfYear() {
     const now = new Date();
     const start = new Date(now.getFullYear(), 0, 0);
@@ -46,6 +46,10 @@
   function renderDailyItem(list, arabicId, translationId, refId) {
     if (!list || !list.length) return;
     const item = list[dayOfYear() % list.length];
+    setDailyCard(arabicId, translationId, refId, item);
+  }
+
+  function setDailyCard(arabicId, translationId, refId, item) {
     const arabicEl = document.getElementById(arabicId);
     const translationEl = document.getElementById(translationId);
     const refEl = document.getElementById(refId);
@@ -54,8 +58,71 @@
     if (refEl) refEl.textContent = item.reference || "";
   }
 
+  // প্রথমে fallback (content.js এর ম্যানুয়াল লিস্ট) দেখিয়ে রাখি, যাতে
+  // ইন্টারনেট/API ধীরে হলেও কার্ড কখনো খালি না দেখায়
   renderDailyItem(c.dailyAyat, "dailyAyahArabic", "dailyAyahTranslation", "dailyAyahRef");
   renderDailyItem(c.dailyHadith, "dailyHadithArabic", "dailyHadithTranslation", "dailyHadithRef");
+
+  // ---- আয়াত: AlQuran Cloud API থেকে প্রতিদিন স্বয়ংক্রিয়ভাবে (কোনো key লাগে না) ----
+  // দিনের তারিখ অনুযায়ী নির্দিষ্ট আয়াত নাম্বার বেছে API থেকে আরবি + বাংলা
+  // অনুবাদ আনা হয়। ফলাফল একদিনের জন্য localStorage এ cache থাকে যাতে
+  // একই দিনে বারবার রিফ্রেশ করলে বারবার API কল না হয়। ব্যর্থ হলে উপরের
+  // fallback (c.dailyAyat) দেখানো অবস্থাতেই থেকে যায়।
+  const TOTAL_AYAHS = 6236; // পুরো কুরআনে মোট আয়াত সংখ্যা
+
+  async function loadDailyAyahFromApi() {
+    const CACHE_KEY = "daily_ayah_cache_v1";
+    const todayKey = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+
+    try {
+      const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+      if (cached && cached.date === todayKey && cached.ayah) {
+        return cached.ayah;
+      }
+    } catch (e) { /* cache পড়তে সমস্যা হলে এড়িয়ে যাও */ }
+
+    const ayahNumber = (dayOfYear() % TOTAL_AYAHS) + 1;
+
+    const res = await fetch(
+      "https://api.alquran.cloud/v1/ayah/" + ayahNumber + "/editions/quran-uthmani,bn.bengali"
+    );
+    const data = await res.json();
+
+    if (data.code !== 200 || !data.data || data.data.length < 2) {
+      throw new Error("AlQuran Cloud API থেকে আয়াত আনা যায়নি।");
+    }
+
+    const arabicEdition = data.data[0];
+    const bengaliEdition = data.data[1];
+
+    const ayah = {
+      arabic: arabicEdition.text,
+      translation: bengaliEdition.text,
+      reference:
+        "সূরা " + arabicEdition.surah.name +
+        " (" + arabicEdition.surah.englishName + "), আয়াত " +
+        arabicEdition.numberInSurah
+    };
+
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ date: todayKey, ayah: ayah }));
+    } catch (e) { /* storage ভর্তি/বন্ধ থাকলে এড়িয়ে যাও */ }
+
+    return ayah;
+  }
+
+  loadDailyAyahFromApi()
+    .then(function (ayah) {
+      setDailyCard("dailyAyahArabic", "dailyAyahTranslation", "dailyAyahRef", ayah);
+    })
+    .catch(function (err) {
+      console.warn("আজকের আয়াত অটো-লোড ব্যর্থ হয়েছে, ম্যানুয়াল লিস্ট দেখানো হচ্ছে।", err);
+      // fallback ইতিমধ্যেই উপরে renderDailyItem() দিয়ে দেখানো আছে
+    });
+
+  // হাদিসের জন্য নির্ভরযোগ্য ফ্রি/স্বয়ংক্রিয় বাংলা API না থাকায় এটা
+  // content.js এর dailyHadith লিস্ট থেকেই দিন অনুযায়ী rotate হয়
+  // (উপরে renderDailyItem() কল দিয়ে ইতিমধ্যে দেখানো হয়ে গেছে)।
 
   // ---- Videos ----
   const videoGrid = document.getElementById("videoGrid");
