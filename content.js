@@ -17,11 +17,58 @@ const SITE_CONTENT = {
   // ইউটিউব চ্যানেলের লিংক (উপরে হেডারের "ইউটিউব চ্যানেল" বাটনে ব্যবহার হবে)
   youtubeChannelUrl: "https://youtube.com/@salafidawahplatform?si=yZ64DniPaqOogui3",
 
-  // ফেইসবুক পেইজের পুরো URL (https সহ)
-  facebookPageUrl: "https://www.facebook.com/share/19Ubw7fjFG/",
-
-  // টেলিগ্রাম গ্রুপ/চ্যানেলের ইনভাইট লিংক
+  // টেলিগ্রাম গ্রুপ/চ্যানেলের ইনভাইট লিংক (হিরো সেকশনের বাটনে ব্যবহার হয়)
   telegramUrl: "https://t.me/salafidawahplatform",
+
+  // ---------------------------------------------------------------------
+  // কমিউনিটি লিংক — এখানে যত ইচ্ছা কার্ড যোগ করতে পারেন, শুধু নিচের প্যাটার্নে
+  // একটা { title, description, url, buttonText } যোগ করলেই "কমিউনিটিতে
+  // যুক্ত হোন" সেকশনে নতুন কার্ড হিসেবে দেখাবে
+  // ---------------------------------------------------------------------
+  communityLinks: [
+    {
+      title: "দাওয়াহ ফেইসবুক পেইজ",
+      description: "নিয়মিত আপডেট, পোস্ট ও ঘোষণার জন্য আমাদের পেইজ ফলো করুন।",
+      url: "https://www.facebook.com/share/19Ubw7fjFG/",
+      buttonText: "পেইজ ভিজিট করুন"
+    },
+    {
+      title: "ফেইসবুক গ্রুপ",
+      description: "আলোচনা, প্রশ্নোত্তর ও কমিউনিটির সাথে যুক্ত হতে গ্রুপে জয়েন করুন।",
+      url: "https://www.facebook.com/share/g/1dxFfuNfPk/",
+      buttonText: "গ্রুপে যুক্ত হোন"
+    },
+    {
+      title: "টেলিগ্রাম গ্রুপ",
+      description: "প্রশ্নোত্তর, নোটিফিকেশন ও আলোচনার জন্য গ্রুপে যুক্ত হোন।",
+      url: "https://t.me/salafidawahplatform",
+      buttonText: "গ্রুপে জয়েন করুন"
+    },
+    {
+      title: "টেলিগ্রাম চ্যানেল",
+      description: "সরাসরি নোটিফিকেশন ও ঘোষণা পেতে চ্যানেলে যুক্ত হোন।",
+      url: "https://t.me/islamicdawahtruereligion",
+      buttonText: "চ্যানেলে যুক্ত হোন"
+    },
+    {
+      title: "আওয়ার ফিল্মস (ইউটিউব চ্যানেল)",
+      description: "আমাদের ভিডিও প্রোডাকশন চ্যানেল — সাবস্ক্রাইব করে সাথে থাকুন।",
+      url: "https://youtube.com/@morfah369?si=RyFP1BDGx_8i4tGF",
+      buttonText: "চ্যানেলে যান"
+    },
+    {
+      title: "আওয়ার ফিল্ম পেইজ (ফেইসবুক)",
+      description: "আমাদের ফিল্ম প্রোডাকশনের ফেইসবুক পেইজ ফলো করুন।",
+      url: "https://www.facebook.com/share/1DWw34LZDu/",
+      buttonText: "পেইজ ভিজিট করুন"
+    },
+    {
+      title: "আন-নূর বুকশপ (বিজনেস পেজ)",
+      description: "বই ও ইসলামিক পণ্যের জন্য আমাদের বুকশপ পেইজ দেখুন।",
+      url: "https://www.facebook.com/share/19JgfhmmwM/",
+      buttonText: "পেইজ ভিজিট করুন"
+    }
+  ],
 
   // ---------------------------------------------------------------------
   // ইউটিউব থেকে ভিডিও অটো-আপডেট (ঐচ্ছিক)

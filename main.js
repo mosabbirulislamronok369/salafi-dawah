@@ -33,7 +33,6 @@
 
   // ---- External links ----
   document.getElementById("youtubeChannelLink").href = c.youtubeChannelUrl;
-  document.getElementById("telegramLink").href = c.telegramUrl;
   document.getElementById("telegramHeroLink").href = c.telegramUrl;
 
   // ---- Videos ----
@@ -189,15 +188,28 @@
     pdfList.appendChild(li);
   });
 
-  // ---- Facebook link (simple button — the official Page Plugin needs
-  // domain verification and a real page URL, so a plain button is far
-  // more reliable, especially with share-style links) ----
-  const fbContainer = document.getElementById("fbPageContainer");
-  const fbLink = document.createElement("a");
-  fbLink.href = c.facebookPageUrl;
-  fbLink.target = "_blank";
-  fbLink.rel = "noopener";
-  fbLink.className = "btn btn-primary";
-  fbLink.textContent = "পেইজ ভিজিট করুন";
-  fbContainer.appendChild(fbLink);
+  // ---- Community links (Facebook page/group, Telegram, extra channels, etc.) ----
+  const communityGrid = document.getElementById("communityGrid");
+  (c.communityLinks || []).forEach(function (item) {
+    const card = document.createElement("div");
+    card.className = "community-card";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = item.title;
+
+    const p = document.createElement("p");
+    p.textContent = item.description || "";
+
+    const link = document.createElement("a");
+    link.href = item.url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.className = "btn btn-primary";
+    link.textContent = item.buttonText || "ভিজিট করুন";
+
+    card.appendChild(h3);
+    card.appendChild(p);
+    card.appendChild(link);
+    communityGrid.appendChild(card);
+  });
 })();
