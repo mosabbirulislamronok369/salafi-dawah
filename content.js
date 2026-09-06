@@ -84,7 +84,7 @@ const SITE_CONTENT = {
   //    বসিয়ে "Restrict key" করুন — নাহলে যে কেউ আপনার key ব্যবহার করতে পারবে
   // ---------------------------------------------------------------------
   youtube: {
-    apiKey: "YOUR_YOUTUBE_API_KEY", // AIzaSyAYAfrb3zEKzB6M6LtbRBDBzgFU9hiULc0এখানে আপনার আসল API key বসান
+    apiKey: "AIzaSyAYAfrb3zEKzB6M6LtbRBDBzgFU9hiULc0",
     channelHandle: "salafidawahplatform", // @ ছাড়া হ্যান্ডেল
     maxVideos: 6 // কয়টা সাম্প্রতিক ভিডিও অটো দেখাবে
   },
