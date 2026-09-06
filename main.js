@@ -189,36 +189,15 @@
     pdfList.appendChild(li);
   });
 
-  // ---- Facebook Page Plugin (loaded only if a real URL is set) ----
+  // ---- Facebook link (simple button — the official Page Plugin needs
+  // domain verification and a real page URL, so a plain button is far
+  // more reliable, especially with share-style links) ----
   const fbContainer = document.getElementById("fbPageContainer");
-  if (c.facebookPageUrl && c.facebookPageUrl.indexOf("your-page") === -1) {
-    const fbRoot = document.createElement("div");
-    fbRoot.id = "fb-root";
-    document.body.appendChild(fbRoot);
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.defer = true;
-    script.crossOrigin = "anonymous";
-    script.src = "https://connect.facebook.net/bn_BD/sdk.js#xfbml=1&version=v19.0";
-    document.body.appendChild(script);
-
-    const fbDiv = document.createElement("div");
-    fbDiv.className = "fb-page";
-    fbDiv.setAttribute("data-href", c.facebookPageUrl);
-    fbDiv.setAttribute("data-tabs", "timeline");
-    fbDiv.setAttribute("data-width", "");
-    fbDiv.setAttribute("data-height", "300");
-    fbDiv.setAttribute("data-small-header", "true");
-    fbDiv.setAttribute("data-adapt-container-width", "true");
-    fbContainer.appendChild(fbDiv);
-  } else {
-    const fallback = document.createElement("a");
-    fallback.href = c.facebookPageUrl;
-    fallback.target = "_blank";
-    fallback.rel = "noopener";
-    fallback.className = "btn btn-primary";
-    fallback.textContent = "পেইজ ভিজিট করুন";
-    fbContainer.appendChild(fallback);
-  }
+  const fbLink = document.createElement("a");
+  fbLink.href = c.facebookPageUrl;
+  fbLink.target = "_blank";
+  fbLink.rel = "noopener";
+  fbLink.className = "btn btn-primary";
+  fbLink.textContent = "পেইজ ভিজিট করুন";
+  fbContainer.appendChild(fbLink);
 })();
