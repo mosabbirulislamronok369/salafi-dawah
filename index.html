@@ -20,6 +20,7 @@
         <span></span><span></span><span></span>
       </button>
       <nav class="main-nav" id="mainNav">
+        <a href="#daily">আয়াত-হাদিস</a>
         <a href="#videos">ভিডিও</a>
         <a href="#community">কমিউনিটি</a>
         <a href="#resources">রিসোর্স</a>
@@ -43,6 +44,26 @@
   </header>
 
   <main>
+
+    <section id="daily" class="section daily-section">
+      <div class="section-head">
+        <h2>আজকের আয়াত ও হাদিস</h2>
+      </div>
+      <div class="daily-grid">
+        <div class="daily-card">
+          <p class="daily-label">আজকের আয়াত</p>
+          <p class="daily-arabic" id="dailyAyahArabic" dir="rtl" lang="ar"></p>
+          <p class="daily-translation" id="dailyAyahTranslation"></p>
+          <span class="daily-ref" id="dailyAyahRef"></span>
+        </div>
+        <div class="daily-card">
+          <p class="daily-label">আজকের হাদিস</p>
+          <p class="daily-arabic" id="dailyHadithArabic" dir="rtl" lang="ar"></p>
+          <p class="daily-translation" id="dailyHadithTranslation"></p>
+          <span class="daily-ref" id="dailyHadithRef"></span>
+        </div>
+      </div>
+    </section>
 
     <section id="videos" class="section">
       <div class="section-head">

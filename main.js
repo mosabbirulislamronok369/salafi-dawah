@@ -35,6 +35,28 @@
   document.getElementById("youtubeChannelLink").href = c.youtubeChannelUrl;
   document.getElementById("telegramHeroLink").href = c.telegramUrl;
 
+  // ---- Daily Ayat & Hadith (rotates automatically by the day of the year) ----
+  function dayOfYear() {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diffMs = now - start;
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  function renderDailyItem(list, arabicId, translationId, refId) {
+    if (!list || !list.length) return;
+    const item = list[dayOfYear() % list.length];
+    const arabicEl = document.getElementById(arabicId);
+    const translationEl = document.getElementById(translationId);
+    const refEl = document.getElementById(refId);
+    if (arabicEl) arabicEl.textContent = item.arabic || "";
+    if (translationEl) translationEl.textContent = item.translation || "";
+    if (refEl) refEl.textContent = item.reference || "";
+  }
+
+  renderDailyItem(c.dailyAyat, "dailyAyahArabic", "dailyAyahTranslation", "dailyAyahRef");
+  renderDailyItem(c.dailyHadith, "dailyHadithArabic", "dailyHadithTranslation", "dailyHadithRef");
+
   // ---- Videos ----
   const videoGrid = document.getElementById("videoGrid");
 
