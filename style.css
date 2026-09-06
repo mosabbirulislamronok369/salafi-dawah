@@ -6,6 +6,7 @@
   --brass: #A67C2E;
   --brass-soft: #C79A45;
   --teal: #3E5C55;
+  --teal-soft: #4F7268;
   --text: #221E17;
   --text-muted: #5B564A;
   --white: #FFFDF8;
@@ -36,13 +37,18 @@ a { color: inherit; text-decoration: none; }
 }
 
 .header-inner {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--ink);
   max-width: 1080px;
   margin: 0 auto;
-  padding: 20px 24px;
+  padding: 18px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .brand {
@@ -83,11 +89,37 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--brass-soft);
 }
 
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 34px;
+  height: 34px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--sand);
+  border-radius: 1px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.is-open span:nth-child(2) { opacity: 0; }
+.nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 .hero {
   position: relative;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 64px 24px 88px;
+  padding: 68px 24px 96px;
   overflow: hidden;
 }
 
@@ -117,9 +149,9 @@ a { color: inherit; text-decoration: none; }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(28px, 4vw, 42px);
-  line-height: 1.3;
-  margin: 0 0 18px;
+  font-size: clamp(30px, 4.2vw, 44px);
+  line-height: 1.32;
+  margin: 0 0 20px;
   font-weight: 700;
 }
 
@@ -127,7 +159,7 @@ a { color: inherit; text-decoration: none; }
   color: #C9C3B2;
   font-size: 17px;
   max-width: 52ch;
-  margin: 0 0 32px;
+  margin: 0 0 34px;
 }
 
 .hero-actions {
@@ -136,13 +168,27 @@ a { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
 }
 
+/* Crenellated divider — echoes a mosque skyline silhouette between the
+   dark hero and the sand-colored page below. This is the one deliberate
+   ornamental flourish on the page; everything else stays quiet. */
+.hero-divider {
+  height: 16px;
+  background-image:
+    linear-gradient(135deg, transparent 50%, var(--sand) 50%),
+    linear-gradient(-135deg, transparent 50%, var(--sand) 50%);
+  background-size: 24px 24px, 24px 24px;
+  background-position: 0 0, 12px 0;
+  background-repeat: repeat-x;
+}
+
 .btn {
   display: inline-block;
-  padding: 12px 24px;
-  border-radius: 3px;
+  padding: 12px 26px;
+  border-radius: 4px;
   font-size: 15px;
   font-weight: 600;
   border: 1px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .btn-primary {
@@ -150,7 +196,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--white);
 }
 
-.btn-primary:hover { background: var(--brass-soft); }
+.btn-primary:hover { background: var(--brass-soft); transform: translateY(-1px); }
 
 .btn-outline {
   border-color: #6B7680;
@@ -164,7 +210,7 @@ a { color: inherit; text-decoration: none; }
 .section {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 64px 24px;
+  padding: 72px 24px;
 }
 
 .section-alt {
@@ -183,15 +229,24 @@ a { color: inherit; text-decoration: none; }
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
   flex-wrap: wrap;
 }
 
-.section-head h2 {
+.section-head h2, .contact-section h2 {
   font-family: var(--font-display);
   font-size: 28px;
   margin: 0;
   color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-head h2::before, .contact-section h2::before {
+  content: "✦";
+  color: var(--brass);
+  font-size: 16px;
 }
 
 .section-link {
@@ -199,9 +254,11 @@ a { color: inherit; text-decoration: none; }
   color: var(--teal);
   font-weight: 600;
   white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.section-link:hover { color: var(--brass); }
+.section-link:hover { color: var(--brass); border-color: var(--brass); }
 
 /* ---------- Videos ---------- */
 
@@ -214,6 +271,13 @@ a { color: inherit; text-decoration: none; }
 .video-card {
   border: 1px solid #D9CFAF;
   background: var(--white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.video-card:hover {
+  border-color: var(--brass-soft);
+  box-shadow: 0 10px 24px -14px rgba(23, 36, 44, 0.35);
+  transform: translateY(-2px);
 }
 
 .video-thumb {
@@ -269,7 +333,12 @@ a { color: inherit; text-decoration: none; }
 .community-card {
   background: var(--white);
   border-left: 3px solid var(--brass);
-  padding: 24px 28px;
+  padding: 26px 30px;
+  transition: box-shadow 0.2s ease;
+}
+
+.community-card:hover {
+  box-shadow: 0 10px 24px -16px rgba(23, 36, 44, 0.3);
 }
 
 .community-card h3 {
@@ -304,8 +373,9 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 4px;
+  padding: 16px 6px;
   font-size: 15px;
+  transition: color 0.2s ease, padding-right 0.2s ease;
 }
 
 .pdf-list a:hover { color: var(--brass); }
@@ -332,12 +402,7 @@ a { color: inherit; text-decoration: none; }
   text-align: left;
 }
 
-.contact-section h2 {
-  font-family: var(--font-display);
-  font-size: 26px;
-  color: var(--ink);
-  margin: 0 0 12px;
-}
+.contact-section h2 { font-size: 26px; margin: 0 0 14px; }
 
 .contact-section p {
   color: var(--text-muted);
@@ -354,8 +419,31 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 640px) {
-  .header-inner { flex-direction: column; align-items: flex-start; }
+@media (max-width: 720px) {
+  .nav-toggle { display: flex; }
+
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--ink);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .main-nav.is-open { max-height: 260px; }
+
+  .main-nav a {
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .header-inner { position: relative; }
   .hero { padding: 48px 20px 64px; }
   .section { padding: 48px 20px; }
 }

@@ -24,7 +24,27 @@ const SITE_CONTENT = {
   telegramUrl: "https://t.me/salafidawahplatform",
 
   // ---------------------------------------------------------------------
-  // ভিডিও তালিকা — videoId হলো YouTube URL এর ?v= এর পরের অংশ
+  // ইউটিউব থেকে ভিডিও অটো-আপডেট (ঐচ্ছিক)
+  // apiKey ফাঁকা / "YOUR_YOUTUBE_API_KEY" রাখলে নিচের ম্যানুয়াল videos
+  // লিস্টই দেখাবে (অটো-আপডেট বন্ধ থাকবে)।
+  //
+  // apiKey কীভাবে নেবেন:
+  // 1. https://console.cloud.google.com এ যান, নতুন প্রজেক্ট বানান
+  // 2. "APIs & Services" -> "Library" -> "YouTube Data API v3" চালু করুন
+  // 3. "Credentials" -> "Create Credentials" -> "API key"
+  // 4. *** জরুরি *** সেই key-তে ক্লিক করে "Application restrictions" এ
+  //    "Websites" সিলেক্ট করে আপনার ডোমেইন (যেমন yourdomain.com/*)
+  //    বসিয়ে "Restrict key" করুন — নাহলে যে কেউ আপনার key ব্যবহার করতে পারবে
+  // ---------------------------------------------------------------------
+  youtube: {
+    apiKey: "YOUR_YOUTUBE_API_KEY", // এখানে আপনার আসল API key বসান
+    channelHandle: "salafidawahplatform", // @ ছাড়া হ্যান্ডেল
+    maxVideos: 6 // কয়টা সাম্প্রতিক ভিডিও অটো দেখাবে
+  },
+
+  // ---------------------------------------------------------------------
+  // ভিডিও তালিকা (fallback / ম্যানুয়াল) — উপরে apiKey না দিলে এই লিস্টটাই
+  // দেখাবে। videoId হলো YouTube URL এর ?v= এর পরের অংশ
   // যেমন https://www.youtube.com/watch?v=dQw4w9WgXcQ -> videoId: "dQw4w9WgXcQ"
   // ---------------------------------------------------------------------
   videos: [

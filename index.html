@@ -6,7 +6,7 @@
 <title>আস-সালাফিয়্যাহ দাওয়াহ প্ল্যাটফর্ম</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -16,7 +16,10 @@
         <span class="brand-mark" aria-hidden="true">﷽</span>
         <span class="brand-name" id="siteName">সাইটের নাম</span>
       </div>
-      <nav class="main-nav">
+      <button class="nav-toggle" id="navToggle" aria-label="মেনু খুলুন" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" id="mainNav">
         <a href="#videos">ভিডিও</a>
         <a href="#community">কমিউনিটি</a>
         <a href="#resources">রিসোর্স</a>
@@ -36,6 +39,7 @@
         </div>
       </div>
     </div>
+    <div class="hero-divider" aria-hidden="true"></div>
   </header>
 
   <main>
@@ -88,7 +92,7 @@
     <p id="footerText">© আস-সালাফিয়্যাহ দাওয়াহ প্ল্যাটফর্ম</p>
   </footer>
 
-  <script src="js/content.js"></script>
-  <script src="js/main.js"></script>
+  <script src="content.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
