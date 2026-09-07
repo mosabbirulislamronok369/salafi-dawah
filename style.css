@@ -9,8 +9,22 @@
   --teal-soft: #4F7268;
   --text: #221E17;
   --text-muted: #5B564A;
-  --white: #FFFDF8;
   --border: #D9CFAF;
+
+  /* --white: always actual white/near-white — used for text
+     that sits on the always-dark header/hero/buttons, in BOTH
+     themes. Never redefine this to a dark color. */
+  --white: #FFFDF8;
+
+  /* --surface: card/panel background color. This is what
+     changes between light and dark mode (was wrongly reusing
+     --white before, which broke header text contrast). */
+  --surface: #FFFDF8;
+
+  /* --heading: color for page headings (h2/h3, article titles).
+     Dark navy works on the light sand background; needs to
+     flip to a light color in dark mode or it becomes invisible. */
+  --heading: var(--ink);
 
   --font-display: "Amiri", "Noto Sans Bengali", serif;
   --font-body: "Noto Sans Bengali", system-ui, sans-serif;
@@ -18,16 +32,18 @@
 
 /* ---------- Dark theme ----------
    Toggled by common.js setting data-theme="dark" on <html>.
-   Only the "page" colors change — the header/hero always
-   stays on the dark --ink palette by design, so it looks the
-   same in both modes; --brass/--teal accents stay untouched. */
+   The header/hero always stays on the dark --ink palette by
+   design (looks the same in both modes) — --white therefore
+   stays constant. Only the page surface, borders and heading
+   color adapt here. */
 :root[data-theme="dark"] {
   --sand: #171D20;
   --sand-deep: #101517;
   --text: #EDE9DD;
   --text-muted: #A9A392;
-  --white: #1E262A;
+  --surface: #1E262A;
   --border: #32403A;
+  --heading: #F1ECDD;
 }
 
 * { box-sizing: border-box; }
@@ -196,6 +212,7 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.32;
   margin: 0 0 20px;
   font-weight: 700;
+  color: var(--white);
 }
 
 .hero-sub {
@@ -282,7 +299,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-display);
   font-size: 28px;
   margin: 0;
-  color: var(--ink);
+  color: var(--heading);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -314,7 +331,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .daily-card {
-  background: var(--white);
+  background: var(--surface);
   border-top: 3px solid var(--brass);
   padding: 36px 30px;
   text-align: center;
@@ -333,7 +350,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(20px, 3vw, 27px);
   line-height: 2.1;
   margin: 0 0 20px;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 .daily-translation {
@@ -397,7 +414,7 @@ a { color: inherit; text-decoration: none; }
 
 .video-card {
   border: 1px solid var(--border);
-  background: var(--white);
+  background: var(--surface);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.25s ease;
 }
 
@@ -441,6 +458,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 16px;
   margin: 14px 16px 4px;
   line-height: 1.4;
+  color: var(--heading);
 }
 
 .video-card p {
@@ -459,7 +477,7 @@ a { color: inherit; text-decoration: none; }
 
 .article-card {
   display: block;
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--border);
   padding: 26px 28px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.25s ease;
@@ -482,7 +500,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-display);
   font-size: 19px;
   margin: 0 0 10px;
-  color: var(--ink);
+  color: var(--heading);
   line-height: 1.4;
 }
 
@@ -522,7 +540,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(26px, 4vw, 38px);
   line-height: 1.35;
   margin: 0 0 32px;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 .article-body {
@@ -539,7 +557,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-display);
   font-size: 22px;
   margin: 36px 0 16px;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 /* ---------- Community ---------- */
@@ -551,7 +569,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .community-card {
-  background: var(--white);
+  background: var(--surface);
   border-left: 3px solid var(--brass);
   padding: 26px 30px;
   transition: box-shadow 0.2s ease, background-color 0.25s ease;
@@ -565,7 +583,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-display);
   font-size: 20px;
   margin: 0 0 10px;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 .community-card p {
@@ -595,6 +613,7 @@ a { color: inherit; text-decoration: none; }
   gap: 14px;
   padding: 16px 6px;
   font-size: 15px;
+  color: var(--text);
   transition: color 0.2s ease, padding-right 0.2s ease;
 }
 

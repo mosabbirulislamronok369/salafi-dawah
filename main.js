@@ -229,7 +229,9 @@
   async function loadYoutubeVideos(cfg) {
     const CACHE_KEY = "yt_videos_cache_v1";
     const CHANNEL_ID_KEY = "yt_channel_id_v1_" + cfg.channelHandle;
-    const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // ৬ ঘণ্টা
+    // নতুন আপলোড করা ভিডিও কতক্ষণে দেখা যাবে তার সীমা। কমালে বেশি
+    // দ্রুত নতুন ভিডিও দেখাবে, কিন্তু API quota বেশি খরচ হবে।
+    const CACHE_TTL_MS = 30 * 60 * 1000; // ৩০ মিনিট
 
     // ১) cache আছে ও তাজা কিনা দেখো (API quota বাঁচাতে)
     try {
