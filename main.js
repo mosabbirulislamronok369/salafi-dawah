@@ -1,39 +1,9 @@
 (function () {
   const c = SITE_CONTENT;
 
-  // ---- Mobile nav toggle ----
-  const navToggle = document.getElementById("navToggle");
-  const mainNav = document.getElementById("mainNav");
-  if (navToggle && mainNav) {
-    navToggle.addEventListener("click", function () {
-      const isOpen = mainNav.classList.toggle("is-open");
-      navToggle.classList.toggle("is-open", isOpen);
-      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-    mainNav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        mainNav.classList.remove("is-open");
-        navToggle.classList.remove("is-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
-
-  // ---- Text content ----
-  document.getElementById("siteName").textContent = c.site.name;
   document.title = c.site.name;
   document.getElementById("heroTitle").textContent = c.site.heroTitle;
   document.getElementById("heroSub").textContent = c.site.heroSubtitle;
-  document.getElementById("footerText").textContent = c.site.footerText;
-  document.getElementById("contactText").textContent = c.site.contactText;
-
-  const contactEmailEl = document.getElementById("contactEmail");
-  contactEmailEl.href = "mailto:" + c.site.contactEmail;
-  contactEmailEl.textContent = c.site.contactEmail;
-
-  // ---- External links ----
-  document.getElementById("youtubeChannelLink").href = c.youtubeChannelUrl;
-  document.getElementById("telegramHeroLink").href = c.telegramUrl;
 
   // ---- Daily Ayat & Hadith ----
   function dayOfYear() {
@@ -64,10 +34,6 @@
   renderDailyItem(c.dailyHadith, "dailyHadithArabic", "dailyHadithTranslation", "dailyHadithRef");
 
   // ---- আয়াত: AlQuran Cloud API থেকে প্রতিদিন স্বয়ংক্রিয়ভাবে (কোনো key লাগে না) ----
-  // দিনের তারিখ অনুযায়ী নির্দিষ্ট আয়াত নাম্বার বেছে API থেকে আরবি + বাংলা
-  // অনুবাদ আনা হয়। ফলাফল একদিনের জন্য localStorage এ cache থাকে যাতে
-  // একই দিনে বারবার রিফ্রেশ করলে বারবার API কল না হয়। ব্যর্থ হলে উপরের
-  // fallback (c.dailyAyat) দেখানো অবস্থাতেই থেকে যায়।
   const TOTAL_AYAHS = 6236; // পুরো কুরআনে মোট আয়াত সংখ্যা
 
   async function loadDailyAyahFromApi() {
@@ -123,6 +89,86 @@
   // হাদিসের জন্য নির্ভরযোগ্য ফ্রি/স্বয়ংক্রিয় বাংলা API না থাকায় এটা
   // content.js এর dailyHadith লিস্ট থেকেই দিন অনুযায়ী rotate হয়
   // (উপরে renderDailyItem() কল দিয়ে ইতিমধ্যে দেখানো হয়ে গেছে)।
+
+  // ---- Daily card share / copy buttons ----
+  // প্রতিটা বাটনে data-target="ayah|hadith" আর data-action="whatsapp|
+  // facebook|copy" থাকে। ক্লিকের মুহূর্তে কার্ডে যা টেক্সট আছে (fallback
+  // বা API — যেটাই তখন দেখানো থাকুক) সেটাই শেয়ার/কপি হবে।
+  function getDailyText(target) {
+    const prefix = target === "ayah" ? "dailyAyah" : "dailyHadith";
+
+    const arabic = document.getElementById(prefix + "Arabic").textContent.trim();
+    const translation = document.getElementById(prefix + "Translation").textContent.trim();
+    const reference = document.getElementById(prefix + "Ref").textContent.trim();
+
+    return [arabic, translation, reference].filter(Boolean).join("\n\n");
+  }
+
+  function fallbackCopy(text, onDone) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    try {
+      document.execCommand("copy");
+    } catch (e) { /* ignore */ }
+
+    document.body.removeChild(textarea);
+    if (onDone) onDone();
+  }
+
+  function copyTextToClipboard(text, btn) {
+    const originalLabel = btn.textContent;
+
+    function showCopied() {
+      btn.classList.add("copied");
+      btn.textContent = "কপি হয়েছে ✓";
+      setTimeout(function () {
+        btn.classList.remove("copied");
+        btn.textContent = originalLabel;
+      }, 1800);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showCopied).catch(function () {
+        fallbackCopy(text, showCopied);
+      });
+    } else {
+      fallbackCopy(text, showCopied);
+    }
+  }
+
+  document.querySelectorAll(".daily-action-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const target = btn.getAttribute("data-target");
+      const action = btn.getAttribute("data-action");
+      const text = getDailyText(target);
+
+      if (action === "whatsapp") {
+        window.open(
+          "https://wa.me/?text=" + encodeURIComponent(text),
+          "_blank",
+          "noopener"
+        );
+      } else if (action === "facebook") {
+        const shareUrl = window.location.origin + window.location.pathname;
+        window.open(
+          "https://www.facebook.com/sharer/sharer.php?u=" +
+            encodeURIComponent(shareUrl) +
+            "&quote=" +
+            encodeURIComponent(text),
+          "_blank",
+          "noopener"
+        );
+      } else if (action === "copy") {
+        copyTextToClipboard(text, btn);
+      }
+    });
+  });
 
   // ---- Videos ----
   const videoGrid = document.getElementById("videoGrid");

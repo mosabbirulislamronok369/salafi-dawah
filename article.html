@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">নিবন্ধ</title>
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("site_theme_v1");
+      if (!t) {
+        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) { /* ignore */ }
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">﷽</span>
+        <span class="brand-name" id="siteName">সাইটের নাম</span>
+      </div>
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html#daily">আয়াত-হাদিস</a>
+        <a href="index.html#videos">ভিডিও</a>
+        <a href="blog.html">ব্লগ</a>
+        <a href="index.html#community">কমিউনিটি</a>
+        <a href="index.html#resources">রিসোর্স</a>
+        <a href="index.html#contact">যোগাযোগ</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="থিম পরিবর্তন করুন">🌙</button>
+        <button class="nav-toggle" id="navToggle" aria-label="মেনু খুলুন" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article-page">
+      <a href="blog.html" class="back-link">← ব্লগে ফিরে যান</a>
+      <p class="article-meta" id="articleDate"></p>
+      <h1 id="articleTitle">লোড হচ্ছে...</h1>
+      <div class="article-body" id="articleBody"></div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p id="footerText">© আস-সালাফিয়্যাহ দাওয়াহ প্ল্যাটফর্ম</p>
+  </footer>
+
+  <script src="content.js"></script>
+  <script src="common.js"></script>
+  <script src="article.js"></script>
+</body>
+</html>

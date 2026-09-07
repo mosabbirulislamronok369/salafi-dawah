@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>আস-সালাফিয়্যাহ দাওয়াহ প্ল্যাটফর্ম</title>
+<script>
+  // থিম ফ্ল্যাশ এড়াতে CSS লোড হওয়ার আগেই সঠিক থিম বসিয়ে দেয়।
+  // পূর্ণ টগল লজিক common.js এ।
+  (function () {
+    try {
+      var t = localStorage.getItem("site_theme_v1");
+      if (!t) {
+        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) { /* ignore */ }
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -16,16 +29,20 @@
         <span class="brand-mark" aria-hidden="true">﷽</span>
         <span class="brand-name" id="siteName">সাইটের নাম</span>
       </div>
-      <button class="nav-toggle" id="navToggle" aria-label="মেনু খুলুন" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
       <nav class="main-nav" id="mainNav">
         <a href="#daily">আয়াত-হাদিস</a>
         <a href="#videos">ভিডিও</a>
+        <a href="blog.html">ব্লগ</a>
         <a href="#community">কমিউনিটি</a>
         <a href="#resources">রিসোর্স</a>
         <a href="#contact">যোগাযোগ</a>
       </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="থিম পরিবর্তন করুন">🌙</button>
+        <button class="nav-toggle" id="navToggle" aria-label="মেনু খুলুন" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
 
     <div class="hero">
@@ -55,12 +72,22 @@
           <p class="daily-arabic" id="dailyAyahArabic" dir="rtl" lang="ar"></p>
           <p class="daily-translation" id="dailyAyahTranslation"></p>
           <span class="daily-ref" id="dailyAyahRef"></span>
+          <div class="daily-actions">
+            <button type="button" class="daily-action-btn" data-target="ayah" data-action="whatsapp">WhatsApp-এ শেয়ার</button>
+            <button type="button" class="daily-action-btn" data-target="ayah" data-action="facebook">Facebook-এ শেয়ার</button>
+            <button type="button" class="daily-action-btn" data-target="ayah" data-action="copy">লেখা কপি করুন</button>
+          </div>
         </div>
         <div class="daily-card">
           <p class="daily-label">আজকের হাদিস</p>
           <p class="daily-arabic" id="dailyHadithArabic" dir="rtl" lang="ar"></p>
           <p class="daily-translation" id="dailyHadithTranslation"></p>
           <span class="daily-ref" id="dailyHadithRef"></span>
+          <div class="daily-actions">
+            <button type="button" class="daily-action-btn" data-target="hadith" data-action="whatsapp">WhatsApp-এ শেয়ার</button>
+            <button type="button" class="daily-action-btn" data-target="hadith" data-action="facebook">Facebook-এ শেয়ার</button>
+            <button type="button" class="daily-action-btn" data-target="hadith" data-action="copy">লেখা কপি করুন</button>
+          </div>
         </div>
       </div>
     </section>
@@ -100,6 +127,7 @@
   </footer>
 
   <script src="content.js"></script>
+  <script src="common.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

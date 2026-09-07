@@ -10,9 +10,24 @@
   --text: #221E17;
   --text-muted: #5B564A;
   --white: #FFFDF8;
+  --border: #D9CFAF;
 
   --font-display: "Amiri", "Noto Sans Bengali", serif;
   --font-body: "Noto Sans Bengali", system-ui, sans-serif;
+}
+
+/* ---------- Dark theme ----------
+   Toggled by common.js setting data-theme="dark" on <html>.
+   Only the "page" colors change — the header/hero always
+   stays on the dark --ink palette by design, so it looks the
+   same in both modes; --brass/--teal accents stay untouched. */
+:root[data-theme="dark"] {
+  --sand: #171D20;
+  --sand-deep: #101517;
+  --text: #EDE9DD;
+  --text-muted: #A9A392;
+  --white: #1E262A;
+  --border: #32403A;
 }
 
 * { box-sizing: border-box; }
@@ -25,6 +40,7 @@ body {
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.6;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -87,6 +103,33 @@ a { color: inherit; text-decoration: none; }
 .main-nav a:hover {
   color: var(--white);
   border-color: var(--brass-soft);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: none;
+  color: var(--sand);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--brass-soft);
+  transform: translateY(-1px);
 }
 
 .nav-toggle {
@@ -179,6 +222,7 @@ a { color: inherit; text-decoration: none; }
   background-size: 24px 24px, 24px 24px;
   background-position: 0 0, 12px 0;
   background-repeat: repeat-x;
+  transition: background-image 0.25s ease;
 }
 
 .btn {
@@ -216,6 +260,7 @@ a { color: inherit; text-decoration: none; }
 .section-alt {
   background: var(--sand-deep);
   max-width: none;
+  transition: background-color 0.25s ease;
 }
 
 .section-alt > * {
@@ -273,6 +318,7 @@ a { color: inherit; text-decoration: none; }
   border-top: 3px solid var(--brass);
   padding: 36px 30px;
   text-align: center;
+  transition: background-color 0.25s ease;
 }
 
 .daily-label {
@@ -306,6 +352,41 @@ a { color: inherit; text-decoration: none; }
   border-radius: 2px;
 }
 
+.daily-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.daily-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.daily-action-btn:hover {
+  border-color: var(--brass-soft);
+  color: var(--brass);
+}
+
+.daily-action-btn.copied {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: rgba(62, 92, 85, 0.08);
+}
+
 /* ---------- Videos ---------- */
 
 .video-grid {
@@ -315,9 +396,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .video-card {
-  border: 1px solid #D9CFAF;
+  border: 1px solid var(--border);
   background: var(--white);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.25s ease;
 }
 
 .video-card:hover {
@@ -368,6 +449,99 @@ a { color: inherit; text-decoration: none; }
   margin: 0 16px 16px;
 }
 
+/* ---------- Blog / Articles ---------- */
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.article-card {
+  display: block;
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 26px 28px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.25s ease;
+}
+
+.article-card:hover {
+  border-color: var(--brass-soft);
+  box-shadow: 0 10px 24px -16px rgba(23, 36, 44, 0.3);
+  transform: translateY(-2px);
+}
+
+.article-date {
+  font-size: 12px;
+  color: var(--teal);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.article-card h3 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  margin: 0 0 10px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.article-card p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.article-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 24px 96px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 28px;
+  font-size: 14px;
+  color: var(--teal);
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover { color: var(--brass); }
+
+.article-meta {
+  font-size: 13px;
+  color: var(--teal);
+  font-weight: 600;
+  margin: 0 0 14px;
+}
+
+.article-page h1 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.35;
+  margin: 0 0 32px;
+  color: var(--ink);
+}
+
+.article-body {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--text);
+}
+
+.article-body p {
+  margin: 0 0 22px;
+}
+
+.article-body h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  margin: 36px 0 16px;
+  color: var(--ink);
+}
+
 /* ---------- Community ---------- */
 
 .community-grid {
@@ -380,7 +554,7 @@ a { color: inherit; text-decoration: none; }
   background: var(--white);
   border-left: 3px solid var(--brass);
   padding: 26px 30px;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, background-color 0.25s ease;
 }
 
 .community-card:hover {
@@ -408,11 +582,11 @@ a { color: inherit; text-decoration: none; }
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid #D9CFAF;
+  border-top: 1px solid var(--border);
 }
 
 .pdf-list li {
-  border-bottom: 1px solid #D9CFAF;
+  border-bottom: 1px solid var(--border);
 }
 
 .pdf-list a {
@@ -482,7 +656,7 @@ a { color: inherit; text-decoration: none; }
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .main-nav.is-open { max-height: 260px; }
+  .main-nav.is-open { max-height: 320px; }
 
   .main-nav a {
     padding: 14px 24px;
@@ -492,6 +666,7 @@ a { color: inherit; text-decoration: none; }
   .header-inner { position: relative; }
   .hero { padding: 48px 20px 64px; }
   .section { padding: 48px 20px; }
+  .article-page { padding: 48px 20px 72px; }
 }
 
 /* Accessibility: visible focus */
